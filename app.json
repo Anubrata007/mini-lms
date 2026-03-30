@@ -4,6 +4,7 @@
     "slug": "mini-lms",
     "version": "1.0.0",
     "scheme": "mini-lms",
+    "userInterfaceStyle": "automatic",
     "web": {
       "bundler": "metro",
       "output": "static"
@@ -27,10 +28,10 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.yourname.minilms"
+      "package": "com.anubrata95.minilms"
     },
     "ios": {
-      "bundleIdentifier": "com.yourname.minilms",
+      "bundleIdentifier": "com.anubrata95.minilms",
       "supportsTablet": true,
       "icon": "./assets/icon.png"
     },

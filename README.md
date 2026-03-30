@@ -123,3 +123,6 @@ npx expo start --clear
 1. Install **Expo Go** from the Play Store or App Store
 2. Run `npx expo start`
 3. Scan the QR code with Expo Go
+
+Install **APK**
+https://expo.dev/accounts/anubrata95/projects/mini-lms/builds/654e632b-aaf8-4ae7-87b7-56325d9df180
