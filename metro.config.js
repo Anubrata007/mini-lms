@@ -1,0 +1,11 @@
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
+
+const config = getDefaultConfig(__dirname);
+
+// Allow Metro to bundle HTML files
+config.resolver.assetExts.push("html");
+
+module.exports = withNativeWind(config, {
+    input: "./src/styles/globals.css",
+});

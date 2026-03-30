@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Content</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #3b82f6;
+        --primary-dark: #1d4ed8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #1e293b;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --radius: 12px;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 0;
+        min-height: 100vh;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #60a5fa 100%);
+        padding: 40px 20px 60px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+      }
+
+      .hero-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .hero-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-instructor {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px;
+        margin-bottom: 20px;
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: 20px;
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+      }
+
+      .stat-label {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* ── Progress Card ── */
+      .progress-card {
+        background: var(--card);
+        margin: -20px 16px 16px;
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        position: relative;
+        z-index: 10;
+      }
+
+      .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .progress-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .progress-percent {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .progress-bar {
+        background: #e2e8f0;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        border-radius: 4px;
+        width: 0%;
+        transition: width 1s ease;
+      }
+
+      /* ── Section ── */
+      .section {
+        padding: 0 16px 16px;
+      }
+
+      .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* ── Lesson Card ── */
+      .lesson-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        margin-bottom: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .lesson-card:active {
+        transform: scale(0.98);
+      }
+
+      .lesson-card.completed {
+        border-color: #d1fae5;
+      }
+
+      .lesson-card.active {
+        border-color: var(--primary);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+      }
+
+      .lesson-inner {
+        display: flex;
+        align-items: center;
+        padding: 14px;
+        gap: 12px;
+      }
+
+      .lesson-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .lesson-icon.completed {
+        background: #d1fae5;
+      }
+
+      .lesson-icon.active {
+        background: #dbeafe;
+      }
+
+      .lesson-icon.locked {
+        background: #f1f5f9;
+      }
+
+      .lesson-info {
+        flex: 1;
+      }
+
+      .lesson-number {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+      }
+
+      .lesson-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
+
+      .lesson-meta {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .lesson-status {
+        font-size: 18px;
+      }
+
+      /* ── About Card ── */
+      .about-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+
+      .about-text {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      /* ── CTA Button ── */
+      .cta-section {
+        padding: 0 16px 32px;
+      }
+
+      .cta-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+        transition: opacity 0.2s;
+      }
+
+      .cta-btn:active {
+        opacity: 0.85;
+      }
+
+      /* ── Instructor Card ── */
+      .instructor-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .instructor-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #e2e8f0;
+      }
+
+      .instructor-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .instructor-email {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      .instructor-badge {
+        margin-left: auto;
+        background: #dbeafe;
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      /* ── Toast ── */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: #1e293b;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+        z-index: 999;
+        white-space: nowrap;
+      }
+
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge" id="hero-category">Loading...</div>
+      <div class="hero-title" id="hero-title">Loading course...</div>
+      <div class="hero-instructor" id="hero-instructor">by Instructor</div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-value" id="stat-rating">0.0</div>
+          <div class="stat-label">Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="stat-price">$0</div>
+          <div class="stat-label">Price</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Lessons</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">6h</div>
+          <div class="stat-label">Duration</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-card">
+      <div class="progress-header">
+        <span class="progress-title">Your Progress</span>
+        <span class="progress-percent" id="progress-percent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="section">
+      <div class="section-title">📖 About</div>
+      <div class="about-card">
+        <div class="about-text" id="about-text">Loading description...</div>
+      </div>
+    </div>
+
+    <!-- Instructor -->
+    <div class="section">
+      <div class="section-title">👨‍🏫 Instructor</div>
+      <div class="instructor-card">
+        <img
+          class="instructor-avatar"
+          id="instructor-avatar"
+          src=""
+          alt="Instructor"
+          onerror="this.src='https://ui-avatars.com/api/?name=Instructor&background=3b82f6&color=fff&size=100'"
+        />
+        <div>
+          <div class="instructor-name" id="instructor-name">Loading...</div>
+          <div class="instructor-email" id="instructor-email">...</div>
+        </div>
+        <div class="instructor-badge">Expert</div>
+      </div>
+    </div>
+
+    <!-- Lessons -->
+    <div class="section">
+      <div class="section-title">🎬 Course Content</div>
+      <div id="lessons-container"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <button class="cta-btn" onclick="handleStartLesson()">
+        <span>▶</span>
+        <span id="cta-text">Start First Lesson</span>
+      </button>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ── State ──────────────────────────────────────────────────────────────
+      let courseData = null;
+      let completedLessons = [];
+      let currentLesson = 0;
+
+      const lessonTitles = [
+        "Introduction & Overview",
+        "Core Fundamentals",
+        "Getting Started",
+        "Key Concepts Deep Dive",
+        "Practical Application",
+        "Hands-on Project",
+        "Advanced Techniques",
+        "Real-world Examples",
+        "Best Practices",
+        "Common Mistakes to Avoid",
+        "Performance & Optimization",
+        "Final Project & Wrap Up",
+      ];
+
+      const lessonDurations = [
+        "5 min", "12 min", "18 min", "22 min",
+        "30 min", "45 min", "25 min", "35 min",
+        "20 min", "15 min", "28 min", "40 min",
+      ];
+
+      // ── Receive data from Native app ───────────────────────────────────────
+      window.addEventListener("message", (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === "COURSE_DATA") {
+            courseData = message.payload;
+            renderCourse();
+          }
+          if (message.type === "PROGRESS_UPDATE") {
+            updateProgress(message.payload.percent);
+          }
+        } catch (e) {
+          console.log("Message parse error:", e);
+        }
+      });
+
+      // ── Render course content ──────────────────────────────────────────────
+      function renderCourse() {
+        if (!courseData) return;
+
+        // Hero
+        document.getElementById("hero-title").textContent = courseData.title;
+        document.getElementById("hero-category").textContent =
+          courseData.category;
+        document.getElementById("hero-instructor").textContent =
+          "by " + courseData.instructorName;
+        document.getElementById("stat-rating").textContent =
+          parseFloat(courseData.rating).toFixed(1);
+        document.getElementById("stat-price").textContent =
+          "$" + parseFloat(courseData.price).toFixed(0);
+
+        // About
+        document.getElementById("about-text").textContent =
+          courseData.description;
+
+        // Instructor
+        document.getElementById("instructor-name").textContent =
+          courseData.instructorName;
+        document.getElementById("instructor-email").textContent =
+          courseData.instructorEmail;
+        document.getElementById("instructor-avatar").src =
+          courseData.instructorAvatar;
+
+        // Lessons
+        renderLessons();
+
+        // Animate progress
+        setTimeout(() => updateProgress(courseData.progress || 0), 500);
+      }
+
+      function renderLessons() {
+        const container = document.getElementById("lessons-container");
+        container.innerHTML = "";
+
+        lessonTitles.forEach((title, index) => {
+          const isCompleted = completedLessons.includes(index);
+          const isActive = index === currentLesson;
+          const isLocked = index > currentLesson && !isCompleted;
+
+          const card = document.createElement("div");
+          card.className = `lesson-card ${
+            isCompleted ? "completed" : isActive ? "active" : ""
+          }`;
+          card.onclick = () => selectLesson(index);
+
+          card.innerHTML = `
+            <div class="lesson-inner">
+              <div class="lesson-icon ${
+                isCompleted ? "completed" : isActive ? "active" : "locked"
+              }">
+                ${isCompleted ? "✅" : isActive ? "▶️" : isLocked ? "🔒" : "📄"}
+              </div>
+              <div class="lesson-info">
+                <div class="lesson-number">Lesson ${index + 1}</div>
+                <div class="lesson-title">${title}</div>
+                <div class="lesson-meta">${lessonDurations[index]}</div>
+              </div>
+              <div class="lesson-status">
+                ${isCompleted ? "✅" : isActive ? "🔵" : "⚪"}
+              </div>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      }
+
+      function selectLesson(index) {
+        if (index > currentLesson && !completedLessons.includes(index)) {
+          showToast("Complete previous lessons first 🔒");
+          return;
+        }
+        currentLesson = index;
+        renderLessons();
+
+        // Send message back to Native app
+        sendToNative({
+          type: "LESSON_SELECTED",
+          payload: {
+            lessonIndex: index,
+            lessonTitle: lessonTitles[index],
+          },
+        });
+
+        updateCTA();
+      }
+
+      function handleStartLesson() {
+        // Mark current lesson as completed
+        if (!completedLessons.includes(currentLesson)) {
+          completedLessons.push(currentLesson);
+        }
+
+        // Move to next lesson
+        if (currentLesson < lessonTitles.length - 1) {
+          currentLesson++;
+        }
+
+        const progress = Math.round(
+          (completedLessons.length / lessonTitles.length) * 100
+        );
+
+        renderLessons();
+        updateProgress(progress);
+        updateCTA();
+
+        // Notify native app
+        sendToNative({
+          type: "LESSON_COMPLETED",
+          payload: {
+            completedCount: completedLessons.length,
+            totalCount: lessonTitles.length,
+            progress: progress,
+          },
+        });
+
+        showToast(
+          completedLessons.length === lessonTitles.length
+            ? "🎉 Course completed!"
+            : `✅ Lesson ${completedLessons.length} completed!`
+        );
+      }
+
+      function updateProgress(percent) {
+        document.getElementById("progress-percent").textContent = percent + "%";
+        document.getElementById("progress-fill").style.width = percent + "%";
+      }
+
+      function updateCTA() {
+        const ctaText = document.getElementById("cta-text");
+        if (completedLessons.length === lessonTitles.length) {
+          ctaText.textContent = "Course Completed 🎉";
+        } else {
+          ctaText.textContent = `Start Lesson ${currentLesson + 1}`;
+        }
+      }
+
+      // ── Send message to Native app ─────────────────────────────────────────
+      function sendToNative(message) {
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(message));
+        }
+      }
+
+      // ── Toast ──────────────────────────────────────────────────────────────
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2500);
+      }
+
+      // ── Tell native we are ready ───────────────────────────────────────────
+      window.onload = function () {
+        sendToNative({ type: "WEBVIEW_READY", payload: {} });
+      };
+    </script>
+  </body>
+</html>
